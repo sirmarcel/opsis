@@ -68,5 +68,10 @@ class Reporter:
         self.current_step = None
 
     def tick(self, message):
+        if self.spinner is not None:
+            self.spinner.stop()
+            self.spinner = None
+            self.ticker = Ticker(self.current_step, self.comms.step_formatter)
+
         if self.ticker is not None:
             self.ticker(f"{self.current_step} {message}")
