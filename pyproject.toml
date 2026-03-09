@@ -1,18 +1,17 @@
-[tool.poetry]
+[project]
 name = "opsis"
 version = "0.1.0"
 description = "nice and simple command line output"
-authors = ["Marcel Langer <dev@marcel.science>"]
-license = "MIT"
+authors = [{name = "Marcel Langer", email = "dev@marcel.science"}]
+license = {text = "MIT"}
 readme = "README.md"
-homepage = "https://marcel.science"
-repository = "https://github.com/sirmarcel/opsis"
+requires-python = ">=3.7"
+dependencies = ["click"]
 
-[tool.poetry.dependencies]
-python = ">=3.7"
-click = "*"
-
+[project.urls]
+Homepage = "https://marcel.science"
+Repository = "https://github.com/sirmarcel/opsis"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
