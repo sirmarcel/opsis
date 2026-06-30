@@ -99,6 +99,18 @@ comms = Comms(prefix="deploy")
 # [deploy]        -> uploading artifacts...
 ```
 
+### Silent mode
+
+Pass `silent=True` to suppress all output from a `Comms` instance — handy for a `--quiet` flag. Every method becomes a no-op, and any `reporter()` it creates inherits the silence, so spinners and tickers stay quiet too:
+
+```python
+comms = Comms(prefix="myapp", silent=True)
+comms.talk("you will never see this")
+reporter = comms.reporter()              # also silent
+```
+
+Pass `silent` explicitly to `reporter()` to override per reporter.
+
 ### TTY detection
 
 Spinners and tickers are automatically disabled when stdout is not a TTY (e.g. when piping to a file or running in CI). Your output stays clean and parseable without any extra configuration.

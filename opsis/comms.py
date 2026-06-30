@@ -11,7 +11,7 @@ icon_done = "✓"
 class Comms:
     def __init__(self, prefix="opsis", silent=False):
         self.prefix = prefix
-        self.silent = silent  # say absolutely nothing
+        self.silent = silent
 
     def echo(self, *args, **kwargs):
         if not self.silent:
