@@ -9,16 +9,21 @@ icon_done = "✓"
 
 
 class Comms:
-    def __init__(self, prefix="opsis"):
+    def __init__(self, prefix="opsis", silent=False):
         self.prefix = prefix
+        self.silent = silent  # say absolutely nothing
+
+    def _echo(self, *args, **kwargs):
+        if not self.silent:
+            echo(*args, **kwargs)
 
     def talk(self, msg, full=False):
-        echo(
+        self._echo(
             message(msg, prefix=self.prefix, indent="-> ", truncate_message=(not full))
         )
 
     def warn(self, msg, level=None, full=True):
-        echo(
+        self._echo(
             message(
                 msg,
                 style_message={"fg": "red", "bold": True},
@@ -29,7 +34,7 @@ class Comms:
         )
 
     def announce(self, msg, full=False, newline=True):
-        echo(
+        self._echo(
             message(
                 msg,
                 prefix=self.prefix,
@@ -38,7 +43,7 @@ class Comms:
             )
         )
         if newline:
-            echo("")
+            self._echo("")
 
     def state(self, msg, title=None):
         # multi-line statement
@@ -53,15 +58,15 @@ class Comms:
             msg = msg.split("\n")
 
         for line in msg:
-            echo(
+            self._echo(
                 message(line, prefix=self.prefix, indent=indent, truncate_message=False)
             )
 
     def task(self, msg, done=False, **kwargs):
-        echo(self.task_formatter(msg, done=done, **kwargs))
+        self._echo(self.task_formatter(msg, done=done, **kwargs))
 
     def step(self, msg, done=False, **kwargs):
-        echo(self.step_formatter(msg, done=done, **kwargs))
+        self._echo(self.step_formatter(msg, done=done, **kwargs))
 
     def task_formatter(self, msg, done=False, **kwargs):
         style = {
@@ -88,7 +93,9 @@ class Comms:
 
         return message(msg, **style)
 
-    def reporter(self, silent=False, verbose=True):
+    def reporter(self, silent=None, verbose=True):
+        if silent is None:
+            silent = self.silent
         return Reporter(self, silent=silent, verbose=verbose)
 
 
